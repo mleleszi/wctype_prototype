@@ -9,16 +9,16 @@
 #include <wctype.h>
 
 // Level 1 table: maps upper 8 bits to level2 offset
-static constexpr uint16_t level1[4352] = {
+inline constexpr uint16_t level1[4352] = {
 #include "wctype_level1.inc"
 };
 
 // Level 2 table: property bitfields for each character
-static constexpr uint16_t level2[37888] = {
+inline constexpr uint16_t level2[37888] = {
 #include "wctype_level2.inc"
 };
 
-static inline uint16_t lookup_properties(wint_t wc) {
+inline uint16_t lookup_properties(wint_t wc) {
   // Out of Unicode range
   if (wc > 0x10FFFF || (wc >= 0xD800 && wc <= 0xDFFF)) {
     return 0;
