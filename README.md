@@ -1,0 +1,15 @@
+# Wctype
+
+## Building
+
+```
+mkdir build && cd build
+cmake -G Ninja ..
+ninja
+```
+
+## Running tests
+
+```
+ninja check-wctype
+```

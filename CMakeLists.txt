@@ -3,6 +3,16 @@ project(wctype_cpp)
 
 set(CMAKE_CXX_STANDARD 23)
 
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
+)
+
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
 # Build the generator as a separate executable (not included in final binary)
 add_executable(generator generator.cpp generator.h)
 
@@ -13,7 +23,6 @@ set(GENERATED_FILES
         ${CMAKE_CURRENT_BINARY_DIR}/wctype_table.h
 )
 
-# Copy unicodedata directory to build directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/unicodedata
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -33,3 +42,19 @@ add_executable(wctype_cpp main.cpp)
 add_dependencies(wctype_cpp generate_tables)
 
 target_include_directories(wctype_cpp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+# Build tests
+add_executable(wctype_tests test_wctype.cpp)
+target_link_libraries(wctype_tests GTest::gtest_main)
+target_include_directories(wctype_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+add_dependencies(wctype_tests generate_tables)
+
+include(GoogleTest)
+gtest_discover_tests(wctype_tests)
+
+add_custom_target(check-wctype
+        COMMAND wctype_tests
+        DEPENDS wctype_tests
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Running tests..."
+)
