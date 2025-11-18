@@ -22,8 +22,10 @@ add_executable(wctype_tests
         iswblank_test.cpp
         iswgraph_test.cpp
         iswlower_test.cpp
+        iswupper_test.cpp
         iswspace_test.cpp
         iswprint_test.cpp
+        iswcntrl_test.cpp
         iswxdigit_test.cpp
         iswctype_test.cpp
         wctype_test.cpp
@@ -93,6 +95,13 @@ add_custom_target(check-iswlower
         COMMENT "Running iswlower tests..."
 )
 
+add_custom_target(check-iswupper
+        COMMAND wctype_tests --gtest_filter="UpperTest*"
+        DEPENDS wctype_tests
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Running iswupper tests..."
+)
+
 add_custom_target(check-iswspace
         COMMAND wctype_tests --gtest_filter="SpaceTest*"
         DEPENDS wctype_tests
@@ -105,6 +114,13 @@ add_custom_target(check-iswprint
         DEPENDS wctype_tests
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Running iswprint tests..."
+)
+
+add_custom_target(check-iswcntrl
+        COMMAND wctype_tests --gtest_filter="CntrlTest*"
+        DEPENDS wctype_tests
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Running iswcntrl tests..."
 )
 
 add_custom_target(check-iswxdigit

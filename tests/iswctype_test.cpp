@@ -107,6 +107,22 @@ TEST_F(IswctypeTest, Print) {
   EXPECT_EQ(0, my_wctype::iswctype(0x00, desc));
 }
 
+TEST_F(IswctypeTest, Cntrl) {
+  auto desc = my_wctype::WCTYPE_CNTRL;
+
+  EXPECT_NE(0, my_wctype::iswctype(0x00, desc));
+  EXPECT_NE(0, my_wctype::iswctype(L'\t', desc));
+  EXPECT_NE(0, my_wctype::iswctype(L'\n', desc));
+  EXPECT_NE(0, my_wctype::iswctype(L'\r', desc));
+  EXPECT_NE(0, my_wctype::iswctype(0x1F, desc));
+  EXPECT_NE(0, my_wctype::iswctype(0x7F, desc));
+  EXPECT_NE(0, my_wctype::iswctype(0x80, desc));
+  EXPECT_NE(0, my_wctype::iswctype(0x9F, desc));
+  EXPECT_EQ(0, my_wctype::iswctype(L' ', desc));
+  EXPECT_EQ(0, my_wctype::iswctype(L'a', desc));
+  EXPECT_EQ(0, my_wctype::iswctype(L'5', desc));
+}
+
 TEST_F(IswctypeTest, Xdigit) {
   auto desc = my_wctype::WCTYPE_XDIGIT;
 
@@ -140,6 +156,11 @@ TEST_F(IswctypeTest, WctypeIntegration) {
   EXPECT_NE(0, my_wctype::iswctype(L'a', print_desc));
   EXPECT_NE(0, my_wctype::iswctype(L' ', print_desc));
   EXPECT_EQ(0, my_wctype::iswctype(L'\n', print_desc));
+
+  auto cntrl_desc = my_wctype::wctype("cntrl");
+  EXPECT_NE(0, my_wctype::iswctype(L'\n', cntrl_desc));
+  EXPECT_NE(0, my_wctype::iswctype(0x00, cntrl_desc));
+  EXPECT_EQ(0, my_wctype::iswctype(L'a', cntrl_desc));
 
   auto xdigit_desc = my_wctype::wctype("xdigit");
   EXPECT_NE(0, my_wctype::iswctype(L'5', xdigit_desc));

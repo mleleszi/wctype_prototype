@@ -92,7 +92,6 @@ inline int iswlower(wchar_t wc) {
   return lookup_properties(wc) & PROP_LOWER;
 }
 
-// TODO: add tests
 inline int iswupper(wchar_t wc) {
   // Fast path: ASCII uppercase
   if (wc >= 'A' && wc <= 'Z') {
@@ -115,6 +114,15 @@ inline int iswprint(wchar_t wc) {
   }
 
   return lookup_properties(wc) & PROP_PRINT;
+}
+
+inline int iswcntrl(wchar_t wc) {
+  // Fast path: ASCII and C1 control characters
+  if (wc <= 0x1F || (wc >= 0x7F && wc <= 0x9F)) {
+    return 1;
+  }
+
+  return lookup_properties(wc) & PROP_CNTRL;
 }
 
 inline int iswxdigit(wchar_t wc) {
@@ -157,7 +165,6 @@ inline mywctype_t wctype(const char *property) {
   return 0;
 }
 
-// TODO: add tests
 inline int iswctype(wchar_t wc, mywctype_t desc) {
   switch (desc) {
   case WCTYPE_ALNUM:
@@ -167,8 +174,7 @@ inline int iswctype(wchar_t wc, mywctype_t desc) {
   case WCTYPE_BLANK:
     return iswblank(wc);
   case WCTYPE_CNTRL:
-    // TODO: implement iswcntrl
-    return 0;
+    return iswcntrl(wc);
   case WCTYPE_DIGIT:
     return iswdigit(wc);
   case WCTYPE_GRAPH:
@@ -189,9 +195,6 @@ inline int iswctype(wchar_t wc, mywctype_t desc) {
     return 0;
   }
 }
-
-// TODO: iswprint
-// TODO: iswcntrl
 
 } // namespace my_wctype
 
