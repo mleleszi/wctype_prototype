@@ -23,6 +23,7 @@ add_executable(wctype_tests
         iswgraph_test.cpp
         iswlower_test.cpp
         iswspace_test.cpp
+        iswprint_test.cpp
         iswxdigit_test.cpp
         iswctype_test.cpp
         wctype_test.cpp
@@ -97,6 +98,13 @@ add_custom_target(check-iswspace
         DEPENDS wctype_tests
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Running iswspace tests..."
+)
+
+add_custom_target(check-iswprint
+        COMMAND wctype_tests --gtest_filter="PrintTest*"
+        DEPENDS wctype_tests
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Running iswprint tests..."
 )
 
 add_custom_target(check-iswxdigit

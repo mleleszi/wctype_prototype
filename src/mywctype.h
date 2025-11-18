@@ -108,6 +108,15 @@ inline int iswspace(wchar_t wc) {
   return lookup_properties(wc) & PROP_SPACE;
 }
 
+inline int iswprint(wchar_t wc) {
+  // Fast path: ASCII printable characters
+  if (wc >= 0x20 && wc <= 0x7E) {
+    return 1;
+  }
+
+  return lookup_properties(wc) & PROP_PRINT;
+}
+
 inline int iswxdigit(wchar_t wc) {
   if ((wc >= '0' && wc <= '9') ||
       (wc >= 'A' && wc <= 'F') ||
@@ -167,8 +176,7 @@ inline int iswctype(wchar_t wc, mywctype_t desc) {
   case WCTYPE_LOWER:
     return iswlower(wc);
   case WCTYPE_PRINT:
-    // TODO: implement iswprint
-    return 0;
+    return iswprint(wc);
   case WCTYPE_PUNCT:
     return iswpunct(wc);
   case WCTYPE_SPACE:
