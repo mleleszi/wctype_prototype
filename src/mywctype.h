@@ -6,38 +6,20 @@
 
 namespace my_wctype {
 
-namespace {
-// constexpr wctype_t wctype_constexpr(std::string_view property) {
-//   if (property == "alnum")
-//     return PROP_ALPHA | PROP_DIGIT;
-//   if (property == "alpha")
-//     return PROP_ALPHA;
-//   if (property == "blank")
-//     return PROP_BLANK;
-//   if (property == "cntrl")
-//     return PROP_CNTRL;
-//   if (property == "digit")
-//     return PROP_DIGIT;
-//   if (property == "graph")
-//     return PROP_GRAPH;
-//   if (property == "lower")
-//     return PROP_LOWER;
-//   if (property == "print")
-//     return PROP_PRINT;
-//   if (property == "punct")
-//     return PROP_PUNCT;
-//   if (property == "space")
-//     return PROP_SPACE;
-//   if (property == "upper")
-//     return PROP_UPPER;
-//   if (property == "xdigit")
-//     return PROP_XDIGIT;
-//   return 0;
-// }
-} // namespace
+using mywctype_t = uint8_t;
 
-
-typedef uint16_t wctype_t;
+inline constexpr mywctype_t WCTYPE_ALNUM = 1;
+inline constexpr mywctype_t WCTYPE_ALPHA = 2;
+inline constexpr mywctype_t WCTYPE_BLANK = 3;
+inline constexpr mywctype_t WCTYPE_CNTRL = 4;
+inline constexpr mywctype_t WCTYPE_DIGIT = 5;
+inline constexpr mywctype_t WCTYPE_GRAPH = 6;
+inline constexpr mywctype_t WCTYPE_LOWER = 7;
+inline constexpr mywctype_t WCTYPE_PRINT = 8;
+inline constexpr mywctype_t WCTYPE_PUNCT = 9;
+inline constexpr mywctype_t WCTYPE_SPACE = 10;
+inline constexpr mywctype_t WCTYPE_UPPER = 11;
+inline constexpr mywctype_t WCTYPE_XDIGIT = 12;
 
 inline int iswalpha(wchar_t wc) {
   // Fast path: ASCII
@@ -126,19 +108,70 @@ inline int iswspace(wchar_t wc) {
   return lookup_properties(wc) & PROP_SPACE;
 }
 
-// inline wctype_t wctype(const char *property) {
-//   return wctype_constexpr(property);
-// }
+inline mywctype_t wctype(const char *property) {
+  std::string_view prop(property);
+
+  if (prop == "alnum")
+    return WCTYPE_ALNUM;
+  if (prop == "alpha")
+    return WCTYPE_ALPHA;
+  if (prop == "blank")
+    return WCTYPE_BLANK;
+  if (prop == "cntrl")
+    return WCTYPE_CNTRL;
+  if (prop == "digit")
+    return WCTYPE_DIGIT;
+  if (prop == "graph")
+    return WCTYPE_GRAPH;
+  if (prop == "lower")
+    return WCTYPE_LOWER;
+  if (prop == "print")
+    return WCTYPE_PRINT;
+  if (prop == "punct")
+    return WCTYPE_PUNCT;
+  if (prop == "space")
+    return WCTYPE_SPACE;
+  if (prop == "upper")
+    return WCTYPE_UPPER;
+  if (prop == "xdigit")
+    return WCTYPE_XDIGIT;
+
+  return 0;
+}
 
 // TODO: add tests
-inline int iswctype(wchar_t wc, wctype_t desc) {
-  if (desc == 0) {
+inline int iswctype(wchar_t wc, mywctype_t desc) {
+  switch (desc) {
+  case WCTYPE_ALNUM:
+    return iswalnum(wc);
+  case WCTYPE_ALPHA:
+    return iswalpha(wc);
+  case WCTYPE_BLANK:
+    return iswblank(wc);
+  case WCTYPE_CNTRL:
+    // TODO: implement iswcntrl
+    return 0;
+  case WCTYPE_DIGIT:
+    return iswdigit(wc);
+  case WCTYPE_GRAPH:
+    return iswgraph(wc);
+  case WCTYPE_LOWER:
+    return iswlower(wc);
+  case WCTYPE_PRINT:
+    // TODO: implement iswprint
+    return 0;
+  case WCTYPE_PUNCT:
+    return iswpunct(wc);
+  case WCTYPE_SPACE:
+    return iswspace(wc);
+  case WCTYPE_UPPER:
+    return iswupper(wc);
+  case WCTYPE_XDIGIT:
+    // TODO: implement iswxdigit
+    return 0;
+  default:
     return 0;
   }
-
-  uint8_t props = lookup_properties(wc);
-
-  return (props & desc) != 0;
 }
 
 // TODO: iswprint
