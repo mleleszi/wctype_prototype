@@ -40,3 +40,17 @@ target_include_directories(mywctype INTERFACE
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 add_dependencies(mywctype generate_tables)
+
+add_executable(size_check_temp EXCLUDE_FROM_ALL test_size.cpp)
+target_link_libraries(size_check_temp mywctype)
+
+add_custom_target(check_size
+        COMMAND ${CMAKE_COMMAND} -E echo "=== Binary Size Report ==="
+        COMMAND size $<TARGET_FILE:size_check_temp> 2>/dev/null || echo "size command not available, using ls:"
+        COMMAND ls -lh $<TARGET_FILE:size_check_temp>
+        COMMAND ${CMAKE_COMMAND} -E echo ""
+        COMMAND ${CMAKE_COMMAND} -E echo "Data section contains lookup tables - level1 and level2"
+        DEPENDS size_check_temp
+        COMMENT "Checking binary size impact of lookup tables..."
+        VERBATIM
+)
