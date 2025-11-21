@@ -1,6 +1,5 @@
 #include "wctype_test_base.h"
 #include "mywctype.h"
-#include <cwctype>
 
 struct ConversionTestCase {
   wint_t input;

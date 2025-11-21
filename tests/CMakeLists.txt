@@ -30,6 +30,7 @@ add_executable(wctype_tests
         iswctype_test.cpp
         wctype_test.cpp
         towupper_test.cpp
+        towlower_test.cpp
 )
 target_link_libraries(wctype_tests PRIVATE
         GTest::gtest_main
@@ -150,4 +151,11 @@ add_custom_target(check-towupper
         DEPENDS wctype_tests
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Running towupper tests..."
+)
+
+add_custom_target(check-towlower
+        COMMAND wctype_tests --gtest_filter="TowlowerTest*"
+        DEPENDS wctype_tests
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Running towlower tests..."
 )
