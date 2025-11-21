@@ -51,7 +51,7 @@ to the same entry in the block array.
     - alnum: composite, can be defined as alpha && digit
     - graph: composite, can be defined as print && !space
     - digit: in C.UTF8, only ASCII digits are considered digits, can be hardcoded
-    - xdigit: only few possibilites, can be hardcoded
+    - xdigit: only few possibilities, can be hardcoded
 
 These arrays could be generated at build time and could be included in the binary itself.
 According to my prototype implementation, this would increase the code size by **~46KB**.
@@ -117,8 +117,8 @@ and not on every build, and only the generated files themselves will be included
 ## Benchmarks
 
 Benchmark results can be
-seen [here](Benchmarking this against glibc is showing to this implementation be an order of magnitude faster.
-). This might not be totally accurate and representative, only quick prototyping was done.
+seen [here](https://github.com/mleleszi/wctype_prototype/blob/main/benchmarks/benchmarks.md). This
+might not be totally accurate and representative, only quick prototyping was done.
 
 ## Prototype code
 
