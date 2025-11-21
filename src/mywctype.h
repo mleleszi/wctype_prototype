@@ -198,12 +198,26 @@ inline int iswctype(wchar_t wc, mywctype_t desc) {
 }
 
 inline wint_t towlower(wint_t wc) {
-  // TODO: ASCII fast path
+  // ASCII fast path
+  if (wc >= L'A' && wc <= L'Z') {
+    return wc + (L'a' - L'A');
+  }
+  // Other ASCII characters don't need conversion
+  if (wc <= 0x7F) {
+    return wc;
+  }
   return towlower_impl(wc);
 }
 
 inline wint_t towupper(wint_t wc) {
-  // TODO: ASCII fast path
+  // ASCII fast path
+  if (wc >= L'a' && wc <= L'z') {
+    return wc - (L'a' - L'A');
+  }
+  // Other ASCII characters don't need conversion
+  if (wc <= 0x7F) {
+    return wc;
+  }
   return towupper_impl(wc);
 }
 
