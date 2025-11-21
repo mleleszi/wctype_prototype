@@ -2,6 +2,7 @@
 #define MYWCTYPE_H
 
 #include "wctype_table.h"
+#include "wctype_case_mapping.h"
 #include <string_view>
 
 namespace my_wctype {
@@ -194,6 +195,16 @@ inline int iswctype(wchar_t wc, mywctype_t desc) {
   default:
     return 0;
   }
+}
+
+inline wint_t towlower(wint_t wc) {
+  // TODO: ASCII fast path
+  return towlower_impl(wc);
+}
+
+inline wint_t towupper(wint_t wc) {
+  // TODO: ASCII fast path
+  return towupper_impl(wc);
 }
 
 } // namespace my_wctype

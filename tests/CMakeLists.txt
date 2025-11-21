@@ -29,6 +29,7 @@ add_executable(wctype_tests
         iswxdigit_test.cpp
         iswctype_test.cpp
         wctype_test.cpp
+        towupper_test.cpp
 )
 target_link_libraries(wctype_tests PRIVATE
         GTest::gtest_main
@@ -142,4 +143,11 @@ add_custom_target(check-wctype
         DEPENDS wctype_tests
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Running wctype mapping tests..."
+)
+
+add_custom_target(check-towupper
+        COMMAND wctype_tests --gtest_filter="TowupperTest*"
+        DEPENDS wctype_tests
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Running towupper tests..."
 )

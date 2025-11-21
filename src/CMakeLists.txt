@@ -6,6 +6,10 @@ set(GENERATED_FILES
         ${CMAKE_CURRENT_BINARY_DIR}/wctype_level1.inc
         ${CMAKE_CURRENT_BINARY_DIR}/wctype_level2.inc
         ${CMAKE_CURRENT_BINARY_DIR}/wctype_table.h
+
+        ${CMAKE_CURRENT_BINARY_DIR}/wctype_case_mapping.h
+        ${CMAKE_CURRENT_BINARY_DIR}/wctype_case_mapping_lower.inc
+        ${CMAKE_CURRENT_BINARY_DIR}/wctype_case_mapping_upper.inc
 )
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../unicodedata
@@ -27,6 +31,15 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_CURRENT_BINARY_DIR}/wctype_table.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../generated/wctype_table.h
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_BINARY_DIR}/wctype_case_mapping.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../generated/wctype_case_mapping.h
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_BINARY_DIR}/wctype_case_mapping_lower.inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../generated/wctype_case_mapping_lower.inc
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_BINARY_DIR}/wctype_case_mapping_upper.inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../generated/wctype_case_mapping_upper.inc
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS generator ${CMAKE_CURRENT_SOURCE_DIR}/../unicodedata/UnicodeData.txt
         COMMENT "Generating wctype lookup tables..."
