@@ -8,9 +8,6 @@
 #include <stdint.h>
 #include <wctype.h>
 
-// ============================================================================
-// To-upper staged table
-// ============================================================================
 
 // Level 1: maps upper 8 bits to level2 offset
 inline constexpr uint16_t to_upper_level1[491] = {
@@ -22,10 +19,6 @@ inline constexpr uint32_t to_upper_level2[6912] = {
 #include "case_mapping_upper_level2_staged.inc"
 };
 
-// ============================================================================
-// To-lower staged table
-// ============================================================================
-
 // Level 1: maps upper 8 bits to level2 offset
 inline constexpr uint16_t to_lower_level1[491] = {
 #include "case_mapping_lower_level1_staged.inc"
@@ -35,10 +28,6 @@ inline constexpr uint16_t to_lower_level1[491] = {
 inline constexpr uint32_t to_lower_level2[6144] = {
 #include "case_mapping_lower_level2_staged.inc"
 };
-
-// ============================================================================
-// Lookup functions
-// ============================================================================
 
 inline wint_t towupper_impl(wint_t wc) {
   // Handle special cases
@@ -59,7 +48,6 @@ inline wint_t towupper_impl(wint_t wc) {
     return wc;  // ASCII non-letters
   }
 
-  // Staged table lookup
   unsigned l1_idx = wc >> 8;
   if (l1_idx >= 491) {
     return wc;  // Beyond table range
@@ -91,7 +79,6 @@ inline wint_t towlower_impl(wint_t wc) {
     return wc;  // ASCII non-letters
   }
 
-  // Staged table lookup
   unsigned l1_idx = wc >> 8;
   if (l1_idx >= 491) {
     return wc;  // Beyond table range
