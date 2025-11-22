@@ -184,6 +184,7 @@ inline void generate_case_mapping_code(const std::vector<CaseMapping> &to_upper,
 
 #include <stdint.h>
 #include <wctype.h>
+#include <cstddef>
 
 struct CaseMapping {
   uint32_t from;

@@ -38,7 +38,7 @@ BM_Iswgraph_My_Bulk_Mixed            25.4 ns         25.4 ns     27348857 items_
 BM_Iswgraph_Std_Bulk_Mixed           75.6 ns         75.6 ns      9232290 items_per_second=264.456M/s
 ```
 
-### Binary search conversions (~23KB)
+### Binary search conversions (~22.6KB)
 
 ```
 -------------------------------------------------------------------------
@@ -64,7 +64,7 @@ BM_Towlower_My_High_Unicode          10.3 ns         10.3 ns     67832946
 BM_Towlower_Std_High_Unicode         2.98 ns         2.98 ns    236148282
 ```
 
-### Lookup table conversions (~50KB)
+### Lookup table conversions (~53KB)
 
 ```
 -------------------------------------------------------------------------
@@ -90,7 +90,7 @@ BM_Towlower_My_High_Unicode         0.156 ns        0.156 ns   4461467165
 BM_Towlower_Std_High_Unicode         2.96 ns         2.96 ns    235853408
 ```
 
-### Hash Table Conversion (~33KB)
+### Hash Table Conversion (~24.5KB)
 
 ```
 -------------------------------------------------------------------------

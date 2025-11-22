@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 #include <wctype.h>
+#include <cstddef>
 
 struct CaseMapping {
   uint32_t from;
