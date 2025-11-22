@@ -29,7 +29,6 @@ static std::unordered_map<wint_t, wint_t> ht_lower_map = {
 //     0x1F9B, 0x1FAE, 0x1F9F, 0x1F99, 0x1F8F, 0x0130};
 
 inline wint_t towlower_impl(wint_t wc) noexcept {
-  // Handle special cases
   if (wc == WEOF) {
     return WEOF;
   }
@@ -51,7 +50,7 @@ inline wint_t towlower_impl(wint_t wc) noexcept {
     return wc;
   }
 
-  return ht_lower_map.at(wc);
+  return ht_lower_map[wc];
 }
 
 inline wint_t towupper_impl(wint_t wc) noexcept {

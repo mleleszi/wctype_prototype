@@ -191,11 +191,11 @@ struct CaseMapping {
 };
 
 inline constexpr CaseMapping to_upper_table[)" << to_upper.size() << R"(] = {
-#include "wctype_case_mapping_upper.inc"
+#include "case_mapping_upper.inc"
 };
 
 inline constexpr CaseMapping to_lower_table[)" << to_lower.size() << R"(] = {
-#include "wctype_case_mapping_lower.inc"
+#include "case_mapping_lower.inc"
 };
 
 inline const CaseMapping *find_mapping(const CaseMapping *table, size_t size,
