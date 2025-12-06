@@ -29,7 +29,6 @@ static inline bool IsStart(int32_t entry) {
   return (entry & kStartBit) != 0;
 }
 
-// Binary search lookup function
 static bool LookupPredicate(const int32_t *table, uint16_t size, uchar chr) {
   static const int kEntryDist = 1;
   uint16_t value = chr & (kChunkBits - 1);
@@ -61,9 +60,6 @@ static bool LookupPredicate(const int32_t *table, uint16_t size, uchar chr) {
   return (entry == value) || (entry < value && is_start);
 }
 
-// ============================================================================
-// UPPERCASE TABLES (copied from V8's unicode.cc)
-// ============================================================================
 
 static const uint16_t kUppercaseTable0Size = 455;
 static const int32_t kUppercaseTable0[455] = {
@@ -193,9 +189,6 @@ inline bool IsUppercase(uchar c) {
   }
 }
 
-// ============================================================================
-// LETTER TABLES (copied from V8's unicode.cc)
-// ============================================================================
 
 static const uint16_t kLetterTable0Size = 431;
 static const int32_t kLetterTable0[431] = {
