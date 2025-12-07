@@ -351,4 +351,317 @@ inline bool IsLetter(uchar c) {
   }
 }
 
+static const uchar kSentinel = static_cast<uchar>(-1);
+
+template <int kW>
+struct MultiCharacterSpecialCase {
+  static const uchar kEndOfEncoding = kSentinel;
+  uchar chars[kW];
+};
+
+// LookupMapping function for case conversion
+template <bool ranges_are_linear, int kW>
+static int LookupMapping(const int32_t* table, uint16_t size,
+                         const MultiCharacterSpecialCase<kW>* multi_chars,
+                         uchar chr, uchar next, uchar* result,
+                         bool* allow_caching_ptr) {
+  static const int kEntryDist = 2;
+  uint16_t key = chr & (kChunkBits - 1);
+  uint16_t chunk_start = chr - key;
+  unsigned int low = 0;
+  unsigned int high = size - 1;
+
+  while (high != low) {
+    unsigned int mid = low + ((high - low) >> 1);
+    uchar current_value = GetEntry(TableGet<kEntryDist>(table, mid));
+
+    if ((current_value <= key) &&
+        (mid + 1 == size ||
+         GetEntry(TableGet<kEntryDist>(table, mid + 1)) > key)) {
+      low = mid;
+      break;
+    } else if (current_value < key) {
+      low = mid + 1;
+    } else if (current_value > key) {
+      if (mid == 0) break;
+      high = mid - 1;
+    }
+  }
+
+  int32_t field = TableGet<kEntryDist>(table, low);
+  uchar entry = GetEntry(field);
+  bool is_start = IsStart(field);
+  bool found = (entry == key) || (entry < key && is_start);
+
+  if (found) {
+    int32_t value = table[2 * low + 1];
+    if (value == 0) {
+      // 0 means not present
+      return 0;
+    } else if ((value & 3) == 0) {
+      // Low bits 0 means a constant offset from the given character.
+      if (ranges_are_linear) {
+        result[0] = chr + (value >> 2);
+      } else {
+        result[0] = entry + chunk_start + (value >> 2);
+      }
+      return 1;
+    } else if ((value & 3) == 1) {
+      // Low bits 1 means a special case mapping
+      if (allow_caching_ptr) *allow_caching_ptr = false;
+      const MultiCharacterSpecialCase<kW>& mapping = multi_chars[value >> 2];
+      int length = 0;
+      for (length = 0; length < kW; length++) {
+        uchar mapped = mapping.chars[length];
+        if (mapped == MultiCharacterSpecialCase<kW>::kEndOfEncoding) break;
+        if (ranges_are_linear) {
+          result[length] = mapped + (key - entry);
+        } else {
+          result[length] = mapped;
+        }
+      }
+      return length;
+    } else {
+      // Low bits 2 means a really really special case
+      if (allow_caching_ptr) *allow_caching_ptr = false;
+      // Greek final sigma case
+      switch (value >> 2) {
+        case 1:
+          // Upper case sigma converts to two different lower case sigmas
+          // depending on whether it occurs at the end of a word.
+          if (next != 0 && IsLetter(next)) {
+            result[0] = 0x03C3;
+          } else {
+            result[0] = 0x03C2;
+          }
+          return 1;
+        default:
+          return 0;
+      }
+    }
+  } else {
+    return 0;
+  }
+}
+
+// ToLowercase tables and implementation
+static const MultiCharacterSpecialCase<2> kToLowercaseMultiStrings0[2] = {
+    {{105, 775}}, {{kSentinel}}};
+
+static const uint16_t kToLowercaseTable0Size = 488;
+static const int32_t kToLowercaseTable0[976] = {
+    1073741889, 128,   90,         128,   1073742016, 128,   214,        128,
+    1073742040, 128,   222,        128,   256,        4,     258,        4,
+    260,        4,     262,        4,     264,        4,     266,        4,
+    268,        4,     270,        4,     272,        4,     274,        4,
+    276,        4,     278,        4,     280,        4,     282,        4,
+    284,        4,     286,        4,     288,        4,     290,        4,
+    292,        4,     294,        4,     296,        4,     298,        4,
+    300,        4,     302,        4,     304,        1,     306,        4,
+    308,        4,     310,        4,     313,        4,     315,        4,
+    317,        4,     319,        4,     321,        4,     323,        4,
+    325,        4,     327,        4,     330,        4,     332,        4,
+    334,        4,     336,        4,     338,        4,     340,        4,
+    342,        4,     344,        4,     346,        4,     348,        4,
+    350,        4,     352,        4,     354,        4,     356,        4,
+    358,        4,     360,        4,     362,        4,     364,        4,
+    366,        4,     368,        4,     370,        4,     372,        4,
+    374,        4,     376,        -484,  377,        4,     379,        4,
+    381,        4,     385,        840,   386,        4,     388,        4,
+    390,        824,   391,        4,     1073742217, 820,   394,        820,
+    395,        4,     398,        316,   399,        808,   400,        812,
+    401,        4,     403,        820,   404,        828,   406,        844,
+    407,        836,   408,        4,     412,        844,   413,        852,
+    415,        856,   416,        4,     418,        4,     420,        4,
+    422,        872,   423,        4,     425,        872,   428,        4,
+    430,        872,   431,        4,     1073742257, 868,   434,        868,
+    435,        4,     437,        4,     439,        876,   440,        4,
+    444,        4,     452,        8,     453,        4,     455,        8,
+    456,        4,     458,        8,     459,        4,     461,        4,
+    463,        4,     465,        4,     467,        4,     469,        4,
+    471,        4,     473,        4,     475,        4,     478,        4,
+    480,        4,     482,        4,     484,        4,     486,        4,
+    488,        4,     490,        4,     492,        4,     494,        4,
+    497,        8,     498,        4,     500,        4,     502,        -388,
+    503,        -224,  504,        4,     506,        4,     508,        4,
+    510,        4,     512,        4,     514,        4,     516,        4,
+    518,        4,     520,        4,     522,        4,     524,        4,
+    526,        4,     528,        4,     530,        4,     532,        4,
+    534,        4,     536,        4,     538,        4,     540,        4,
+    542,        4,     544,        -520,  546,        4,     548,        4,
+    550,        4,     552,        4,     554,        4,     556,        4,
+    558,        4,     560,        4,     562,        4,     570,        43180,
+    571,        4,     573,        -652,  574,        43168, 577,        4,
+    579,        -780,  580,        276,   581,        284,   582,        4,
+    584,        4,     586,        4,     588,        4,     590,        4,
+    880,        4,     882,        4,     886,        4,     895,        464,
+    902,        152,   1073742728, 148,   906,        148,   908,        256,
+    1073742734, 252,   911,        252,   1073742737, 128,   929,        128,
+    931,        6,     1073742756, 128,   939,        128,   975,        32,
+    984,        4,     986,        4,     988,        4,     990,        4,
+    992,        4,     994,        4,     996,        4,     998,        4,
+    1000,       4,     1002,       4,     1004,       4,     1006,       4,
+    1012,       -240,  1015,       4,     1017,       -28,   1018,       4,
+    1073742845, -520,  1023,       -520,  1073742848, 320,   1039,       320,
+    1073742864, 128,   1071,       128,   1120,       4,     1122,       4,
+    1124,       4,     1126,       4,     1128,       4,     1130,       4,
+    1132,       4,     1134,       4,     1136,       4,     1138,       4,
+    1140,       4,     1142,       4,     1144,       4,     1146,       4,
+    1148,       4,     1150,       4,     1152,       4,     1162,       4,
+    1164,       4,     1166,       4,     1168,       4,     1170,       4,
+    1172,       4,     1174,       4,     1176,       4,     1178,       4,
+    1180,       4,     1182,       4,     1184,       4,     1186,       4,
+    1188,       4,     1190,       4,     1192,       4,     1194,       4,
+    1196,       4,     1198,       4,     1200,       4,     1202,       4,
+    1204,       4,     1206,       4,     1208,       4,     1210,       4,
+    1212,       4,     1214,       4,     1073743040, 1217,  4,     1219,
+    4,     1221,       4,     1223,       4,     1225,       4,     1227,
+    4,     1229,       4,     1232,       4,     1234,       4,     1236,
+    4,     1238,       4,     1240,       4,     1242,       4,     1244,
+    4,     1246,       4,     1248,       4,     1250,       4,     1252,
+    4,     1254,       4,     1256,       4,     1258,       4,     1260,
+    4,     1262,       4,     1264,       4,     1266,       4,     1268,
+    4,     1270,       4,     1272,       4,     1274,       4,     1276,
+    4,     1278,       4,     1280,       4,     1282,       4,     1284,
+    4,     1286,       4,     1288,       4,     1290,       4,     1292,
+    4,     1294,       4,     1296,       4,     1298,       4,     1300,
+    4,     1302,       4,     1304,       4,     1306,       4,     1308,
+    4,     1310,       4,     1312,       4,     1314,       4,     1316,
+    4,     1318,       4,     1320,       4,     1322,       4,     1324,
+    4,     1326,       4,     1073743153, 192,   1366,       192,   1073746080,
+    29056, 4293,       29056, 4295,       29056, 4301,       29056, 7680,
+    4,     7682,       4,     7684,       4,     7686,       4,     7688,
+    4,     7690,       4,     7692,       4,     7694,       4,     7696,
+    4,     7698,       4,     7700,       4,     7702,       4,     7704,
+    4,     7706,       4,     7708,       4,     7710,       4,     7712,
+    4,     7714,       4,     7716,       4,     7718,       4,     7720,
+    4,     7722,       4,     7724,       4,     7726,       4,     7728,
+    4,     7730,       4,     7732,       4,     7734,       4,     7736,
+    4,     7738,       4,     7740,       4,     7742,       4,     7744,
+    4,     7746,       4,     7748,       4,     7750,       4,     7752,
+    4,     7754,       4,     7756,       4,     7758,       4,     7760,
+    4,     7762,       4,     7764,       4,     7766,       4,     7768,
+    4,     7770,       4,     7772,       4,     7774,       4,     7776,
+    4,     7778,       4,     7780,       4,     7782,       4,     7784,
+    4,     7786,       4,     7788,       4,     7790,       4,     7792,
+    4,     7794,       4,     7796,       4,     7798,       4,     7800,
+    4,     7802,       4,     7804,       4,     7806,       4,     7808,
+    4,     7810,       4,     7812,       4,     7814,       4,     7816,
+    4,     7818,       4,     7820,       4,     7822,       4,     7824,
+    4,     7826,       4,     7828,       4,     7838,       -30460, 7840,
+    4,     7842,       4,     7844,       4,     7846,       4,     7848,
+    4,     7850,       4,     7852,       4,     7854,       4,     7856,
+    4,     7858,       4,     7860,       4,     7862,       4,     7864,
+    4,     7866,       4,     7868,       4,     7870,       4,     7872,
+    4,     7874,       4,     7876,       4,     7878,       4,     7880,
+    4,     7882,       4,     7884,       4,     7886,       4,     7888,
+    4,     7890,       4,     7892,       4,     7894,       4,     7896,
+    4,     7898,       4,     7900,       4,     7902,       4,     7904,
+    4,     7906,       4,     7908,       4,     7910,       4,     7912,
+    4,     7914,       4,     7916,       4,     7918,       4,     7920,
+    4,     7922,       4,     7924,       4,     7926,       4,     7928,
+    4,     7930,       4,     7932,       4,     7934,       4,     1073749768,
+    -32,   7951,       -32,   1073749784, -32,   7965,       -32,   1073749800,
+    -32,   7983,       -32,   1073749816, -32,   7999,       -32,   1073749832,
+    -32,   8013,       -32,   8025,       -32,   8027,       -32,   8029,
+    -32,   8031,       -32,   1073749864, -32,   8047,       -32,   1073749896,
+    -32,   8079,       -32,   1073749912, -32,   8095,       -32,   1073749928,
+    -32,   8111,       -32,   1073749944, -32,   8121,       -32,   1073749946,
+    -296,  8123,       -296,  8124,       -36,   1073749960, -344,  8139,
+    -344,  8140,       -36,   1073749976, -32,   8153,       -32,   1073749978,
+    -400,  8155,       -400,  1073749992, -32,   8169,       -32,   1073749994,
+    -448,  8171,       -448,  8172,       -28,   1073750008, -512,  8185,
+    -512,  1073750010, -504,  8187,       -504,  8188,       -36};
+
+static const MultiCharacterSpecialCase<1> kToLowercaseMultiStrings1[1] = {
+    {{kSentinel}}};
+static const uint16_t kToLowercaseTable1Size = 79;
+static const int32_t kToLowercaseTable1[158] = {
+    294,        -30068, 298,        -33532, 299,  -33048, 306,        112,
+    1073742176, 64,     367,        64,     387,  4,      1073743030, 104,
+    1231,       104,    1073744896, 192,    3118, 192,    3168,       4,
+    3170,       -42972, 3171,       -15256, 3172, -42908, 3175,       4,
+    3177,       4,      3179,       4,      3181, -43120, 3182,       -42996,
+    3183,       -43132, 3184,       -43128, 3186, 4,      3189,       4,
+    1073745022, -43260, 3199,       -43260, 3200, 4,      3202,       4,
+    3204,       4,      3206,       4,      3208, 4,      3210,       4,
+    3212,       4,      3214,       4,      3216, 4,      3218,       4,
+    3220,       4,      3222,       4,      3224, 4,      3226,       4,
+    3228,       4,      3230,       4,      3232, 4,      3234,       4,
+    3236,       4,      3238,       4,      3240, 4,      3242,       4,
+    3244,       4,      3246,       4,      3248, 4,      3250,       4,
+    3252,       4,      3254,       4,      3256, 4,      3258,       4,
+    3260,       4,      3262,       4,      3264, 4,      3266,       4,
+    3268,       4,      3270,       4,      3272, 4,      3274,       4,
+    3276,       4,      3278,       4,      3280, 4,      3282,       4,
+    3284,       4,      3286,       4,      3288, 4,      3290,       4,
+    3292,       4,      3294,       4,      3296, 4,      3298,       4,
+    3307,       4,      3309,       4,      3314, 4};
+
+static const MultiCharacterSpecialCase<1> kToLowercaseMultiStrings5[1] = {
+    {{kSentinel}}};
+static const uint16_t kToLowercaseTable5Size = 103;
+static const int32_t kToLowercaseTable5[206] = {
+    1600, 4,       1602, 4,       1604, 4,       1606, 4,       1608, 4,
+    1610, 4,       1612, 4,       1614, 4,       1616, 4,       1618, 4,
+    1620, 4,       1622, 4,       1624, 4,       1626, 4,       1628, 4,
+    1630, 4,       1632, 4,       1634, 4,       1636, 4,       1638, 4,
+    1640, 4,       1642, 4,       1644, 4,       1664, 4,       1666, 4,
+    1668, 4,       1670, 4,       1672, 4,       1674, 4,       1676, 4,
+    1678, 4,       1680, 4,       1682, 4,       1684, 4,       1686, 4,
+    1688, 4,       1690, 4,       1826, 4,       1828, 4,       1830, 4,
+    1832, 4,       1834, 4,       1836, 4,       1838, 4,       1842, 4,
+    1844, 4,       1846, 4,       1848, 4,       1850, 4,       1852, 4,
+    1854, 4,       1856, 4,       1858, 4,       1860, 4,       1862, 4,
+    1864, 4,       1866, 4,       1868, 4,       1870, 4,       1872, 4,
+    1874, 4,       1876, 4,       1878, 4,       1880, 4,       1882, 4,
+    1884, 4,       1886, 4,       1888, 4,       1890, 4,       1892, 4,
+    1894, 4,       1896, 4,       1898, 4,       1900, 4,       1902, 4,
+    1913, 4,       1915, 4,       1917, -141328, 1918, 4,       1920, 4,
+    1922, 4,       1924, 4,       1926, 4,       1931, 4,       1933, -169120,
+    1936, 4,       1938, 4,       1942, 4,       1944, 4,       1946, 4,
+    1948, 4,       1950, 4,       1952, 4,       1954, 4,       1956, 4,
+    1958, 4,       1960, 4,       1962, -169232, 1963, -169276, 1964, -169260,
+    1965, -169220, 1968, -169032, 1969, -169128};
+
+static const MultiCharacterSpecialCase<1> kToLowercaseMultiStrings7[1] = {
+    {{kSentinel}}};
+static const uint16_t kToLowercaseTable7Size = 2;
+static const int32_t kToLowercaseTable7[4] = {1073749793, 128, 7994, 128};
+
+inline uchar ToLower(uchar c) {
+  int chunk_index = c >> 13;
+  uchar result[2];
+  bool allow_caching = true;
+
+  int num_chars = 0;
+  switch (chunk_index) {
+    case 0:
+      num_chars = LookupMapping<true>(kToLowercaseTable0, kToLowercaseTable0Size,
+                                      kToLowercaseMultiStrings0, c, 0, result,
+                                      &allow_caching);
+      break;
+    case 1:
+      num_chars = LookupMapping<true>(kToLowercaseTable1, kToLowercaseTable1Size,
+                                      kToLowercaseMultiStrings1, c, 0, result,
+                                      &allow_caching);
+      break;
+    case 5:
+      num_chars = LookupMapping<true>(kToLowercaseTable5, kToLowercaseTable5Size,
+                                      kToLowercaseMultiStrings5, c, 0, result,
+                                      &allow_caching);
+      break;
+    case 7:
+      num_chars = LookupMapping<true>(kToLowercaseTable7, kToLowercaseTable7Size,
+                                      kToLowercaseMultiStrings7, c, 0, result,
+                                      &allow_caching);
+      break;
+    default:
+      return c;
+  }
+
+
+  return (num_chars > 0) ? result[0] : c;
+}
+
 } // namespace v8_unicode

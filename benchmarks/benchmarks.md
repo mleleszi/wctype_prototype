@@ -6,36 +6,41 @@
 -------------------------------------------------------------------------
 Benchmark                               Time             CPU   Iterations
 -------------------------------------------------------------------------
-BM_Iswdigit_My_ASCII_Digit          0.157 ns        0.157 ns   4469363458
-BM_Iswdigit_Std_ASCII_Digit          3.13 ns         3.13 ns    216820115
-BM_Iswdigit_My_ASCII_Letter         0.156 ns        0.156 ns   4285118986
-BM_Iswdigit_Std_ASCII_Letter         2.96 ns         2.96 ns    236837813
-BM_Iswdigit_My_Unicode              0.157 ns        0.157 ns   4494084908
-BM_Iswdigit_Std_Unicode              3.55 ns         3.55 ns    194718481
-BM_Iswdigit_My_Bulk_Mixed            9.38 ns         9.37 ns     74838284 items_per_second=1.60006G/s
-BM_Iswdigit_Std_Bulk_Mixed           52.4 ns         52.4 ns     13332086 items_per_second=286.032M/s
-BM_Iswalpha_My_ASCII_Letter         0.157 ns        0.157 ns   4464587615
-BM_Iswalpha_Std_ASCII_Letter         2.96 ns         2.96 ns    227530707
-BM_Iswalpha_My_ASCII_Digit          0.157 ns        0.157 ns   4485615301
-BM_Iswalpha_Std_ASCII_Digit          3.12 ns         3.12 ns    224694956
-BM_Iswalpha_My_Latin_Extended       0.157 ns        0.156 ns   4481559554
-BM_Iswalpha_Std_Latin_Extended       3.75 ns         3.75 ns    186457370
-BM_Iswalpha_My_Greek                0.157 ns        0.157 ns   4473185356
-BM_Iswalpha_Std_Greek                3.75 ns         3.75 ns    187296475
-BM_Iswalpha_My_CJK                  0.157 ns        0.157 ns   4474181188
-BM_Iswalpha_Std_CJK                  3.75 ns         3.75 ns    187300750
-BM_Iswalpha_My_Bulk_Mixed            15.5 ns         15.5 ns     44757833 items_per_second=1.54581G/s
-BM_Iswalpha_Std_Bulk_Mixed           83.3 ns         83.3 ns      8416219 items_per_second=288.214M/s
-BM_Iswgraph_My_ASCII_Letter         0.156 ns        0.156 ns   4494637503
-BM_Iswgraph_Std_ASCII_Letter         3.27 ns         3.27 ns    214271763
-BM_Iswgraph_My_ASCII_Digit          0.156 ns        0.156 ns   4493157230
-BM_Iswgraph_Std_ASCII_Digit          3.27 ns         3.27 ns    214031445
-BM_Iswgraph_My_ASCII_Space          0.156 ns        0.156 ns   4473248272
-BM_Iswgraph_Std_ASCII_Space          3.42 ns         3.42 ns    204363433
-BM_Iswgraph_My_Latin_Extended       0.155 ns        0.155 ns   4453162521
-BM_Iswgraph_Std_Latin_Extended       3.59 ns         3.59 ns    189976596
-BM_Iswgraph_My_Bulk_Mixed            25.4 ns         25.4 ns     27348857 items_per_second=787.054M/s
-BM_Iswgraph_Std_Bulk_Mixed           75.6 ns         75.6 ns      9232290 items_per_second=264.456M/s
+BM_Iswdigit_My_ASCII_Digit          0.249 ns        0.249 ns   2809168812
+BM_Iswdigit_Std_ASCII_Digit         0.733 ns        0.733 ns    956253375
+BM_Iswdigit_My_ASCII_Letter         0.243 ns        0.243 ns   2859751581
+BM_Iswdigit_Std_ASCII_Letter        0.752 ns        0.752 ns    990698936
+BM_Iswdigit_My_Unicode              0.245 ns        0.245 ns   2842806214
+BM_Iswdigit_Std_Unicode              2.61 ns         2.61 ns    273468486
+BM_Iswdigit_My_Bulk_Mixed            6.60 ns         6.60 ns    109274568 items_per_second=2.27228G/s
+BM_Iswdigit_Std_Bulk_Mixed           32.4 ns         32.4 ns     21252053 items_per_second=463.101M/s
+BM_Iswalpha_My_ASCII_Letter         0.232 ns        0.232 ns   2835621187
+BM_Iswalpha_Std_ASCII_Letter        0.577 ns        0.577 ns   1223897565
+BM_Iswalpha_V8_ASCII_Letter          5.22 ns         5.22 ns    132382727
+BM_Iswalpha_My_ASCII_Digit          0.229 ns        0.229 ns   3043067777
+BM_Iswalpha_Std_ASCII_Digit         0.573 ns        0.573 ns   1223104414
+BM_Iswalpha_My_Latin_Extended       0.232 ns        0.232 ns   3062700220
+BM_Iswalpha_Std_Latin_Extended       2.37 ns         2.37 ns    295131605
+BM_Iswalpha_V8_Latin_Extended        6.93 ns         6.93 ns    101175682
+BM_Iswalpha_My_Greek                0.230 ns        0.230 ns   3064126302
+BM_Iswalpha_Std_Greek                2.35 ns         2.35 ns    300110178
+BM_Iswalpha_V8_Greek                 5.19 ns         5.19 ns    135104053
+BM_Iswalpha_My_CJK                  0.229 ns        0.229 ns   3038101297
+BM_Iswalpha_Std_CJK                  2.36 ns         2.36 ns    293151133
+BM_Iswalpha_V8_CJK                   1.88 ns         1.88 ns    372989759
+BM_Iswalpha_My_Bulk_Mixed            11.3 ns         11.3 ns     62483946 items_per_second=2.12911G/s
+BM_Iswalpha_Std_Bulk_Mixed           35.4 ns         35.4 ns     19879748 items_per_second=677.539M/s
+BM_Iswalpha_V8_Bulk_Mixed             154 ns          154 ns      4573651 items_per_second=156.343M/s
+BM_Iswgraph_My_ASCII_Letter         0.229 ns        0.229 ns   3049243492
+BM_Iswgraph_Std_ASCII_Letter        0.576 ns        0.576 ns   1210278843
+BM_Iswgraph_My_ASCII_Digit          0.231 ns        0.231 ns   3061928939
+BM_Iswgraph_Std_ASCII_Digit         0.573 ns        0.573 ns   1224874842
+BM_Iswgraph_My_ASCII_Space          0.229 ns        0.229 ns   3012588281
+BM_Iswgraph_Std_ASCII_Space         0.577 ns        0.577 ns   1223292211
+BM_Iswgraph_My_Latin_Extended       0.232 ns        0.232 ns   3045482400
+BM_Iswgraph_Std_Latin_Extended       2.37 ns         2.37 ns    299271550
+BM_Iswgraph_My_Bulk_Mixed            21.1 ns         21.1 ns     33833398 items_per_second=946.55M/s
+BM_Iswgraph_Std_Bulk_Mixed           35.3 ns         35.3 ns     19923898 items_per_second=566.828M/s
 ```
 
 ### Binary search conversions (~22.6KB)
@@ -96,22 +101,31 @@ BM_Towlower_Std_High_Unicode         2.96 ns         2.96 ns    235853408
 -------------------------------------------------------------------------
 Benchmark                               Time             CPU   Iterations
 -------------------------------------------------------------------------
-BM_Towlower_My_ASCII_Upper          0.156 ns        0.156 ns   4484494310
-BM_Towlower_Std_ASCII_Upper          3.74 ns         3.74 ns    174266861
-BM_Towlower_My_ASCII_Lower          0.156 ns        0.156 ns   4506145855
-BM_Towlower_Std_ASCII_Lower          3.62 ns         3.62 ns    195182439
-BM_Towlower_My_Latin_Extended        2.20 ns         2.20 ns    317539207
-BM_Towlower_Std_Latin_Extended       3.58 ns         3.58 ns    195752910
-BM_Towlower_My_Greek                 2.21 ns         2.21 ns    315771249
-BM_Towlower_Std_Greek                3.59 ns         3.59 ns    195431611
-BM_Towlower_My_No_Case               2.18 ns         2.18 ns    322218532
-BM_Towlower_Std_No_Case              3.13 ns         3.13 ns    224865993
-BM_Towlower_My_Bulk_ASCII            49.7 ns         49.7 ns     14112266 items_per_second=966.121M/s
-BM_Towlower_Std_Bulk_ASCII            182 ns          182 ns      3845184 items_per_second=264.187M/s
-BM_Towlower_My_Bulk_Unicode          50.6 ns         50.5 ns     13785060 items_per_second=494.607M/s
-BM_Towlower_Std_Bulk_Unicode          103 ns          103 ns      6847900 items_per_second=241.654M/s
-BM_Towlower_My_Random_ASCII          3.44 ns         3.44 ns    204841799
-BM_Towlower_Std_Random_ASCII         3.75 ns         3.75 ns    187105518
-BM_Towlower_My_High_Unicode          2.17 ns         2.17 ns    322264057
-BM_Towlower_Std_High_Unicode         2.97 ns         2.96 ns    236771564
+BM_Towlower_My_ASCII_Upper          0.247 ns        0.247 ns   2849853096
+BM_Towlower_Std_ASCII_Upper          2.24 ns         2.24 ns    308207894
+BM_Towlower_V8_ASCII_Upper           8.86 ns         8.86 ns     78951688
+BM_Towlower_My_ASCII_Lower          0.240 ns        0.240 ns   2911303088
+BM_Towlower_Std_ASCII_Lower          2.25 ns         2.25 ns    312797821
+BM_Towlower_V8_ASCII_Lower           7.37 ns         7.37 ns     94579645
+BM_Towlower_My_Latin_Extended        1.86 ns         1.86 ns    380475425
+BM_Towlower_Std_Latin_Extended       2.27 ns         2.27 ns    313141315
+BM_Towlower_V8_Latin_Extended        7.63 ns         7.63 ns     93185081
+BM_Towlower_My_Greek                 1.98 ns         1.98 ns    352814902
+BM_Towlower_Std_Greek                2.34 ns         2.34 ns    287589373
+BM_Towlower_V8_Greek                 8.61 ns         8.61 ns     79747250
+BM_Towlower_My_No_Case               1.83 ns         1.83 ns    383594297
+BM_Towlower_Std_No_Case              1.94 ns         1.94 ns    357436982
+BM_Towlower_V8_No_Case              0.245 ns        0.245 ns   2888608410
+BM_Towlower_My_Bulk_ASCII            22.8 ns         22.8 ns     30384842 items_per_second=2.10419G/s
+BM_Towlower_Std_Bulk_ASCII            117 ns          117 ns      6045124 items_per_second=411.471M/s
+BM_Towlower_V8_Bulk_ASCII             486 ns          486 ns      1427434 items_per_second=98.8365M/s
+BM_Towlower_My_Bulk_Unicode          35.7 ns         35.7 ns     20083889 items_per_second=699.59M/s
+BM_Towlower_Std_Bulk_Unicode         68.4 ns         68.4 ns     10271206 items_per_second=365.384M/s
+BM_Towlower_V8_Bulk_Unicode           219 ns          218 ns      3170228 items_per_second=114.417M/s
+BM_Towlower_My_Random_ASCII          3.89 ns         3.89 ns    179036811
+BM_Towlower_Std_Random_ASCII         3.97 ns         3.96 ns    175623649
+BM_Towlower_V8_Random_ASCII          9.73 ns         9.73 ns     68928790
+BM_Towlower_My_High_Unicode          1.85 ns         1.85 ns    392887887
+BM_Towlower_Std_High_Unicode         1.93 ns         1.93 ns    367819066
+BM_Towlower_V8_High_Unicode         0.254 ns        0.253 ns   2785991311
 ```

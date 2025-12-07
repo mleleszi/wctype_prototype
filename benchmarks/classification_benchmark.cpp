@@ -7,7 +7,7 @@
 #include "v8/v8_unicode.h"
 
 static void SetupBenchmarks() {
-  // std::locale::global(std::locale("C.UTF-8"));
+  std::locale::global(std::locale("C.UTF-8"));
 }
 
 // ============================================================================

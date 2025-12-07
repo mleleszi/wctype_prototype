@@ -1,6 +1,7 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 
+#include <cstdint>
 #include <unordered_map>
 #include <string_view>
 #include <string>
