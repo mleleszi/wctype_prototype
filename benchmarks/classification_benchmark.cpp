@@ -430,6 +430,180 @@ static void BM_Iswgraph_Std_Bulk_Mixed(benchmark::State &state) {
 
 BENCHMARK(BM_Iswgraph_Std_Bulk_Mixed);
 
+static void BM_Iswupper_My_ASCII_Upper(benchmark::State &state) {
+  wint_t c = L'A';
+  for (auto _ : state) {
+    int result = my_wctype::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_My_ASCII_Upper);
+
+static void BM_Iswupper_Std_ASCII_Upper(benchmark::State &state) {
+  wint_t c = L'A';
+  for (auto _ : state) {
+    int result = std::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_Std_ASCII_Upper);
+
+static void BM_Iswupper_V8_ASCII_Upper(benchmark::State &state) {
+  wint_t c = L'A';
+  for (auto _ : state) {
+    int result = v8_unicode::IsUppercase(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_V8_ASCII_Upper);
+
+static void BM_Iswupper_My_ASCII_Lower(benchmark::State &state) {
+  wint_t c = L'a';
+  for (auto _ : state) {
+    int result = my_wctype::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_My_ASCII_Lower);
+
+static void BM_Iswupper_Std_ASCII_Lower(benchmark::State &state) {
+  wint_t c = L'a';
+  for (auto _ : state) {
+    int result = std::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_Std_ASCII_Lower);
+
+static void BM_Iswupper_My_Latin_Extended_Upper(benchmark::State &state) {
+  wint_t c = 0x00C0; // À
+  for (auto _ : state) {
+    int result = my_wctype::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_My_Latin_Extended_Upper);
+
+static void BM_Iswupper_Std_Latin_Extended_Upper(benchmark::State &state) {
+  wint_t c = 0x00C0; // À
+  for (auto _ : state) {
+    int result = std::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_Std_Latin_Extended_Upper);
+
+static void BM_Iswupper_V8_Latin_Extended_Upper(benchmark::State &state) {
+  wint_t c = 0x00C0; // À
+  for (auto _ : state) {
+    int result = v8_unicode::IsUppercase(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_V8_Latin_Extended_Upper);
+
+static void BM_Iswupper_My_Greek_Upper(benchmark::State &state) {
+  wint_t c = 0x0391; // Α (Greek capital alpha)
+  for (auto _ : state) {
+    int result = my_wctype::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_My_Greek_Upper);
+
+static void BM_Iswupper_Std_Greek_Upper(benchmark::State &state) {
+  wint_t c = 0x0391; // Α (Greek capital alpha)
+  for (auto _ : state) {
+    int result = std::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_Std_Greek_Upper);
+
+static void BM_Iswupper_V8_Greek_Upper(benchmark::State &state) {
+  wint_t c = 0x0391; // Α (Greek capital alpha)
+  for (auto _ : state) {
+    int result = v8_unicode::IsUppercase(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_V8_Greek_Upper);
+
+static void BM_Iswupper_My_Cyrillic_Upper(benchmark::State &state) {
+  wint_t c = 0x0410; // А (Cyrillic capital A)
+  for (auto _ : state) {
+    int result = my_wctype::iswupper(c);
+    benchmark::DoNotOptimize(result);
+  }
+}
+
+BENCHMARK(BM_Iswupper_My_Cyrillic_Upper);
+
+static void BM_Iswupper_My_Bulk_Mixed(benchmark::State &state) {
+  std::vector<wint_t> text;
+  const char *sample = "The Quick Brown Fox 123!";
+  for (const char *p = sample; *p; ++p) {
+    text.push_back(static_cast<wint_t>(*p));
+  }
+
+  for (auto _ : state) {
+    for (wint_t c : text) {
+      int result = my_wctype::iswupper(c);
+      benchmark::DoNotOptimize(result);
+    }
+  }
+  state.SetItemsProcessed(state.iterations() * text.size());
+}
+
+BENCHMARK(BM_Iswupper_My_Bulk_Mixed);
+
+static void BM_Iswupper_Std_Bulk_Mixed(benchmark::State &state) {
+  std::vector<wint_t> text;
+  const char *sample = "Test 123 Lorem Ipsum!!";
+  for (const char *p = sample; *p; ++p) {
+    text.push_back(static_cast<wint_t>(*p));
+  }
+
+  for (auto _ : state) {
+    for (wint_t c : text) {
+      int result = std::iswupper(c);
+      benchmark::DoNotOptimize(result);
+    }
+  }
+  state.SetItemsProcessed(state.iterations() * text.size());
+}
+
+BENCHMARK(BM_Iswupper_Std_Bulk_Mixed);
+
+static void BM_Iswupper_V8_Bulk_Mixed(benchmark::State &state) {
+  std::vector<wint_t> text;
+  const char *sample = "Test 123 Lorem Ipsum!!";
+  for (const char *p = sample; *p; ++p) {
+    text.push_back(static_cast<wint_t>(*p));
+  }
+
+  for (auto _ : state) {
+    for (wint_t c : text) {
+      int result = v8_unicode::IsUppercase(c);
+      benchmark::DoNotOptimize(result);
+    }
+  }
+  state.SetItemsProcessed(state.iterations() * text.size());
+}
+
+BENCHMARK(BM_Iswupper_V8_Bulk_Mixed);
+
 int main(int argc, char **argv) {
   SetupBenchmarks();
   ::benchmark::Initialize(&argc, argv);

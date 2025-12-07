@@ -359,7 +359,6 @@ struct MultiCharacterSpecialCase {
   uchar chars[kW];
 };
 
-// LookupMapping function for case conversion
 template <bool ranges_are_linear, int kW>
 static int LookupMapping(const int32_t* table, uint16_t size,
                          const MultiCharacterSpecialCase<kW>* multi_chars,

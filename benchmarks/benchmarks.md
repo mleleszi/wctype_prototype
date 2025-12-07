@@ -3,44 +3,59 @@
 ### Classification (~46KB)
 
 ```
--------------------------------------------------------------------------
-Benchmark                               Time             CPU   Iterations
--------------------------------------------------------------------------
-BM_Iswdigit_My_ASCII_Digit          0.249 ns        0.249 ns   2809168812
-BM_Iswdigit_Std_ASCII_Digit         0.733 ns        0.733 ns    956253375
-BM_Iswdigit_My_ASCII_Letter         0.243 ns        0.243 ns   2859751581
-BM_Iswdigit_Std_ASCII_Letter        0.752 ns        0.752 ns    990698936
-BM_Iswdigit_My_Unicode              0.245 ns        0.245 ns   2842806214
-BM_Iswdigit_Std_Unicode              2.61 ns         2.61 ns    273468486
-BM_Iswdigit_My_Bulk_Mixed            6.60 ns         6.60 ns    109274568 items_per_second=2.27228G/s
-BM_Iswdigit_Std_Bulk_Mixed           32.4 ns         32.4 ns     21252053 items_per_second=463.101M/s
-BM_Iswalpha_My_ASCII_Letter         0.232 ns        0.232 ns   2835621187
-BM_Iswalpha_Std_ASCII_Letter        0.577 ns        0.577 ns   1223897565
-BM_Iswalpha_V8_ASCII_Letter          5.22 ns         5.22 ns    132382727
-BM_Iswalpha_My_ASCII_Digit          0.229 ns        0.229 ns   3043067777
-BM_Iswalpha_Std_ASCII_Digit         0.573 ns        0.573 ns   1223104414
-BM_Iswalpha_My_Latin_Extended       0.232 ns        0.232 ns   3062700220
-BM_Iswalpha_Std_Latin_Extended       2.37 ns         2.37 ns    295131605
-BM_Iswalpha_V8_Latin_Extended        6.93 ns         6.93 ns    101175682
-BM_Iswalpha_My_Greek                0.230 ns        0.230 ns   3064126302
-BM_Iswalpha_Std_Greek                2.35 ns         2.35 ns    300110178
-BM_Iswalpha_V8_Greek                 5.19 ns         5.19 ns    135104053
-BM_Iswalpha_My_CJK                  0.229 ns        0.229 ns   3038101297
-BM_Iswalpha_Std_CJK                  2.36 ns         2.36 ns    293151133
-BM_Iswalpha_V8_CJK                   1.88 ns         1.88 ns    372989759
-BM_Iswalpha_My_Bulk_Mixed            11.3 ns         11.3 ns     62483946 items_per_second=2.12911G/s
-BM_Iswalpha_Std_Bulk_Mixed           35.4 ns         35.4 ns     19879748 items_per_second=677.539M/s
-BM_Iswalpha_V8_Bulk_Mixed             154 ns          154 ns      4573651 items_per_second=156.343M/s
-BM_Iswgraph_My_ASCII_Letter         0.229 ns        0.229 ns   3049243492
-BM_Iswgraph_Std_ASCII_Letter        0.576 ns        0.576 ns   1210278843
-BM_Iswgraph_My_ASCII_Digit          0.231 ns        0.231 ns   3061928939
-BM_Iswgraph_Std_ASCII_Digit         0.573 ns        0.573 ns   1224874842
-BM_Iswgraph_My_ASCII_Space          0.229 ns        0.229 ns   3012588281
-BM_Iswgraph_Std_ASCII_Space         0.577 ns        0.577 ns   1223292211
-BM_Iswgraph_My_Latin_Extended       0.232 ns        0.232 ns   3045482400
-BM_Iswgraph_Std_Latin_Extended       2.37 ns         2.37 ns    299271550
-BM_Iswgraph_My_Bulk_Mixed            21.1 ns         21.1 ns     33833398 items_per_second=946.55M/s
-BM_Iswgraph_Std_Bulk_Mixed           35.3 ns         35.3 ns     19923898 items_per_second=566.828M/s
+-------------------------------------------------------------------------------
+Benchmark                                     Time             CPU   Iterations
+-------------------------------------------------------------------------------
+BM_Iswdigit_My_ASCII_Digit                0.249 ns        0.249 ns   2846362358
+BM_Iswdigit_Std_ASCII_Digit               0.753 ns        0.753 ns    933586808
+BM_Iswdigit_My_ASCII_Letter               0.246 ns        0.246 ns   2838442894
+BM_Iswdigit_Std_ASCII_Letter              0.746 ns        0.746 ns    973487892
+BM_Iswdigit_My_Unicode                    0.238 ns        0.238 ns   2867985246
+BM_Iswdigit_Std_Unicode                    2.25 ns         2.25 ns    310709673
+BM_Iswdigit_My_Bulk_Mixed                  6.32 ns         6.32 ns    122417063 items_per_second=2.37236G/s
+BM_Iswdigit_Std_Bulk_Mixed                 32.3 ns         32.3 ns     21908916 items_per_second=464.173M/s
+BM_Iswalpha_My_ASCII_Letter               0.251 ns        0.251 ns   2884001564
+BM_Iswalpha_Std_ASCII_Letter              0.610 ns        0.610 ns   1105658477
+BM_Iswalpha_V8_ASCII_Letter                5.60 ns         5.60 ns    125531149
+BM_Iswalpha_My_ASCII_Digit                0.246 ns        0.246 ns   2879662381
+BM_Iswalpha_Std_ASCII_Digit               0.618 ns        0.618 ns   1153053696
+BM_Iswalpha_My_Latin_Extended             0.251 ns        0.251 ns   2807154662
+BM_Iswalpha_Std_Latin_Extended             2.34 ns         2.34 ns    298664815
+BM_Iswalpha_V8_Latin_Extended              7.54 ns         7.54 ns     92266905
+BM_Iswalpha_My_Greek                      0.251 ns        0.251 ns   2787507062
+BM_Iswalpha_Std_Greek                      2.35 ns         2.35 ns    298592589
+BM_Iswalpha_V8_Greek                       5.70 ns         5.70 ns    122877040
+BM_Iswalpha_My_CJK                        0.251 ns        0.251 ns   2785413636
+BM_Iswalpha_Std_CJK                        2.35 ns         2.35 ns    297038592
+BM_Iswalpha_V8_CJK                         2.05 ns         2.05 ns    341331917
+BM_Iswalpha_My_Bulk_Mixed                  12.2 ns         12.2 ns     57062695 items_per_second=1.96218G/s
+BM_Iswalpha_Std_Bulk_Mixed                 39.3 ns         39.3 ns     18040405 items_per_second=611.451M/s
+BM_Iswalpha_V8_Bulk_Mixed                   165 ns          165 ns      4223854 items_per_second=145.574M/s
+BM_Iswgraph_My_ASCII_Letter               0.253 ns        0.253 ns   2773401032
+BM_Iswgraph_Std_ASCII_Letter              0.633 ns        0.633 ns   1103988963
+BM_Iswgraph_My_ASCII_Digit                0.253 ns        0.253 ns   2770343977
+BM_Iswgraph_Std_ASCII_Digit               0.641 ns        0.641 ns   1086891021
+BM_Iswgraph_My_ASCII_Space                0.257 ns        0.257 ns   2720969643
+BM_Iswgraph_Std_ASCII_Space               0.641 ns        0.641 ns   1095097432
+BM_Iswgraph_My_Latin_Extended             0.257 ns        0.257 ns   2726780331
+BM_Iswgraph_Std_Latin_Extended             2.42 ns         2.42 ns    287475944
+BM_Iswgraph_My_Bulk_Mixed                  20.8 ns         20.8 ns     32721012 items_per_second=963.559M/s
+BM_Iswgraph_Std_Bulk_Mixed                 38.7 ns         38.7 ns     18009834 items_per_second=517.188M/s
+BM_Iswupper_My_ASCII_Upper                0.257 ns        0.257 ns   2730131288
+BM_Iswupper_Std_ASCII_Upper               0.641 ns        0.641 ns   1104864087
+BM_Iswupper_V8_ASCII_Upper                 6.97 ns         6.97 ns    102187710
+BM_Iswupper_My_ASCII_Lower                0.252 ns        0.252 ns   2751390123
+BM_Iswupper_Std_ASCII_Lower               0.644 ns        0.644 ns   1085002792
+BM_Iswupper_My_Latin_Extended_Upper       0.255 ns        0.255 ns   2730239423
+BM_Iswupper_Std_Latin_Extended_Upper       2.34 ns         2.34 ns    298768070
+BM_Iswupper_V8_Latin_Extended_Upper        5.86 ns         5.86 ns    117920271
+BM_Iswupper_My_Greek_Upper                0.254 ns        0.254 ns   2827411711
+BM_Iswupper_Std_Greek_Upper                2.36 ns         2.36 ns    307440978
+BM_Iswupper_V8_Greek_Upper                 7.42 ns         7.42 ns     95628141
+BM_Iswupper_My_Cyrillic_Upper             0.257 ns        0.256 ns   2708114195
+BM_Iswupper_My_Bulk_Mixed                  21.6 ns         21.6 ns     33111146 items_per_second=1.1094G/s
+BM_Iswupper_Std_Bulk_Mixed                 38.1 ns         38.1 ns     18398484 items_per_second=577.503M/s
+BM_Iswupper_V8_Bulk_Mixed                   179 ns          179 ns      3763117 items_per_second=122.958M/s
 ```
 
 ### Binary search conversions (~22.6KB)
